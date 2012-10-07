@@ -103,8 +103,8 @@ public class MushroomIslandSpread extends JavaPlugin implements Listener {
 	}
 	
 	public void rotLog(Block block) {
-		if(block.getTypeId() != 17) { return; }
 		List<Integer> log = this.getConfig().getIntegerList("logBlocks");
+		if(!log.contains(block.getTypeId())) { return; }
 		block.setTypeId(99);
 		boolean lastLeaf = true;
 		for(int i=-1; i<=1; i++){
