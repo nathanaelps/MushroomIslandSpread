@@ -1,0 +1,31 @@
+rottableBlocks:
+  - 2
+  - 5
+  - 19
+  - 25
+  - 26
+  - 35
+  - 47
+  - 53
+  - 60
+  - 12
+redableBlocks:
+  - 6
+  - 31
+  - 32
+  - 38
+  - 55
+  - 63
+brownableBlocks:
+  - 37
+  - 32
+  - 72
+  - 50
+  - 51
+  - 78
+logBlocks:
+  - 17
+removeBlocks:
+  - 13
+  - 18
+  - 106
