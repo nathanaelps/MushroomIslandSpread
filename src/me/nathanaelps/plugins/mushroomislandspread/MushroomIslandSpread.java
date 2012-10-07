@@ -86,7 +86,7 @@ public class MushroomIslandSpread extends JavaPlugin implements Listener {
 						}
 						if(browns.contains(nearBlock.getTypeId())) { nearBlock.setTypeId(brown); }
 						if(reds.contains(nearBlock.getTypeId())) { nearBlock.setTypeId(red); }
-						if(rots.contains(nearBlock.getTypeId())) {
+						if(nearBlock.getRelative(0,1,0).isEmpty() && rots.contains(nearBlock.getTypeId())) {
 							if(Math.random()<.1) { nearBlock.setType(Material.MYCEL); }
 							else { nearBlock.setTypeId(rot); }
 						}
