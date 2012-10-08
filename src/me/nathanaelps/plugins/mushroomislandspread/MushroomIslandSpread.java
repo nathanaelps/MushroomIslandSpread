@@ -110,52 +110,48 @@ public class MushroomIslandSpread extends JavaPlugin implements Listener {
 		//Note that i and k (x and z) form a square with a diameter of 5, while
 		//j (y) starts 3 below the block, and goes to 1 above the block.
 		for(int i=-2; i<3; i++){
-			for(int j=-3; j<2; j++){
-				for(int k=-2; k<3; k++){
-						//We'll name the nearby block that we want to examine... nearBlock! How's that for creative naming?
-						Block nearBlock = block.getRelative(i,j,k);
-						
-						//Fun little side thing that allows occasional small mushrooms to grow into BIG mushrooms! YAY!
-						if((nearBlock.getTypeId()==brown) && (Math.random() < .02)) {
-							nearBlock.setTypeId(0);
-							block.getWorld().generateTree(nearBlock.getLocation(), TreeType.BROWN_MUSHROOM);
-						}
-						if((nearBlock.getTypeId()==red) && (Math.random() < .02)) {
-							nearBlock.setTypeId(0);
-							block.getWorld().generateTree(nearBlock.getLocation(), TreeType.RED_MUSHROOM);
-						}
-						
-						//Now, actually rotting things: Turn blocks from the brown mushroom list (that we got at the beginning of the function)
-						//into brown mushrooms. Pretty simple.
-						if(browns.contains(nearBlock.getTypeId())) { nearBlock.setTypeId(brown); }
-						//And ditto for red.
-						if(reds.contains(nearBlock.getTypeId())) { nearBlock.setTypeId(red); }
-						
-						//little bit o' fun here. We don't really want to make a deep layer of dirt on top of everything (or do we?)
-						//so we'll just check that we're on the top layer.
-						//You know, this would go faster if I was cycling through the y fastest, starting at the top and working down.
-						//then I could just cancel out of the loop as soon as I got to the first block... Hm. Maybe later.
-						//Anyway, if the block is on the surface and is in the rottable list,
-						if(nearBlock.getRelative(0,1,0).isEmpty() && rots.contains(nearBlock.getTypeId())) {
-							//then we randomly make it mycelium. This makes the spread much faster. Delicious.
-							if(Math.random()<.1) { nearBlock.setType(Material.MYCEL); }
-							//or we just turn it into dirt. Dirt that mycelium can spread onto and start the cycle again.
-							else { nearBlock.setTypeId(rot); }
-						}
-						//If it's a vine, or any other removable block, we just set it to air.
-						if(removes.contains(nearBlock.getTypeId())) { nearBlock.setTypeId(remove); }
-						
-						//Second bit o' fun. If the block is in our "I'm a log!" list, we schedule it to become a shroomstem later.
-						if((!onLog) && logs.contains(nearBlock.getTypeId())) { scheduleRot(nearBlock); }
-						
-						//And set the biome to be Mushroom Island. We should probably only do this once per x,z place, to save time.
-						//Eh, when we fix the stuff that I talk about at line 136, we'll fix this, too.
-						//they take the same fix, after all.
-						nearBlock.setBiome(Biome.MUSHROOM_ISLAND);
+			for(int k=-2; k<3; k++){
+				for(int j=1; j>-4; j--){
+					//We'll name the nearby block that we want to examine... nearBlock! How's that for creative naming?
+					Block nearBlock = block.getRelative(i,j,k);
+
+					//Fun little side thing that allows occasional small mushrooms to grow into BIG mushrooms! YAY!
+					if((nearBlock.getTypeId()==brown) && (Math.random() < .02)) {
+						nearBlock.setTypeId(0);
+						block.getWorld().generateTree(nearBlock.getLocation(), TreeType.BROWN_MUSHROOM);
+					}
+					if((nearBlock.getTypeId()==red) && (Math.random() < .02)) {
+						nearBlock.setTypeId(0);
+						block.getWorld().generateTree(nearBlock.getLocation(), TreeType.RED_MUSHROOM);
+					}
+
+					//Now, actually rotting things: Turn blocks from the brown mushroom list (that we got at the beginning of the function)
+					//into brown mushrooms. Pretty simple.
+					if(browns.contains(nearBlock.getTypeId())) { nearBlock.setTypeId(brown); }
+					//And ditto for red.
+					if(reds.contains(nearBlock.getTypeId())) { nearBlock.setTypeId(red); }
+
+					//If the block is in the rottable list,
+					if(rots.contains(nearBlock.getTypeId())) {
+						//then we randomly make it mycelium. This makes the spread much faster. Delicious.
+						if(Math.random()<.1) { nearBlock.setType(Material.MYCEL); }
+						//or we just turn it into dirt. Dirt that mycelium can spread onto and start the cycle again.
+						else { nearBlock.setTypeId(rot); }
+					}
+					//If it's a vine, or any other removable block, we just set it to air.
+					if(removes.contains(nearBlock.getTypeId())) { nearBlock.setTypeId(remove); }
+
+					//Second bit o' fun. If the block is in our "I'm a log!" list, we schedule it to become a shroomstem later.
+					if((!onLog) && logs.contains(nearBlock.getTypeId())) { scheduleRot(nearBlock); }
 				}
+				//And set the biome to be Mushroom Island. We only do this once per x,z place, to save time.
+				block.getRelative(i,0,k).setBiome(Biome.MUSHROOM_ISLAND);
 			}
 		}
 		//Finally, after we've made all our changes, we tell the server to update the biome on everybody's clients.
+		//Kinda a cheat, since it only refreshes the chunk that the block started in.
+		//But that doesn't too much matter, since we'll be updating the nearby chunks pretty soon...
+		//BWAHAHAAH!
 		int x = block.getChunk().getX();
 		int z = block.getChunk().getZ();
 		block.getWorld().refreshChunk(x, z);
