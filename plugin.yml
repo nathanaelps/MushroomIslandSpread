@@ -1,7 +1,7 @@
 name: MushroomIslandSpread
 main: me.nathanaelps.plugins.mushroomislandspread.MushroomIslandSpread
 author: nathanaelps
-version: a.01
+version: b.02
 commands:
   mushload:
     description: Reload Config
