@@ -85,19 +85,19 @@ public class MushroomIslandSpread extends JavaPlugin implements Listener {
 		//These lists come from the config.yml, and they tell us:
 		
 		//Which blocks should we turn into small brown mushrooms?
-		List<Integer> browns = this.getConfig().getIntegerList("brownableBlocks");
+		List<Integer> browns = this.getConfig().getIntegerList("mush.brownableBlocks");
 
 		//Which blocks should we turn into small red mushrooms?
-		List<Integer> reds = this.getConfig().getIntegerList("redableBlocks");
+		List<Integer> reds = this.getConfig().getIntegerList("mush.redableBlocks");
 
 		//Which blocks "rot" (into dirt) immediately?
-		List<Integer> rots = this.getConfig().getIntegerList("rottableBlocks");
+		List<Integer> rots = this.getConfig().getIntegerList("mush.rottableBlocks");
 		
 		//Which blocks should just disappear (This is handy for vines!)
-		List<Integer> removes = this.getConfig().getIntegerList("removeBlocks");
+		List<Integer> removes = this.getConfig().getIntegerList("mush.removeBlocks");
 		
 		//And which blocks should we treat as smaller pieces of a larger fungus.
-		List<Integer> logs = this.getConfig().getIntegerList("logBlocks");
+		List<Integer> logs = this.getConfig().getIntegerList("mush.logBlocks");
 
 		//And let's simplify our later code.
 		int brown = 39; //small brown mushroom.
@@ -178,7 +178,7 @@ public class MushroomIslandSpread extends JavaPlugin implements Listener {
 		//And this is the slightly different function that we use to rot logs.
 		//First, we'll pull the "I'm a Log!" list from the config again.
 		//I should probably streamline this so it doesn't have to check the config each time... Maybe?
-		List<Integer> log = this.getConfig().getIntegerList("logBlocks");
+		List<Integer> log = this.getConfig().getIntegerList("mush.logBlocks");
 		
 		//And if the block is still in the list (i.e., nobody harvested it/pistoned it away/whatever)
 		if(!log.contains(block.getTypeId())) { return; }
@@ -218,7 +218,7 @@ public class MushroomIslandSpread extends JavaPlugin implements Listener {
 	private void cap(Block block, int capColor) {
 		//cap will make a mushroom cap.	
 
-		List<Integer> offGround = this.getConfig().getIntegerList("skyBlocks");
+		List<Integer> offGround = this.getConfig().getIntegerList("mush.skyBlocks");
 		
 		if(!offGround.contains(block.getRelative(0, -3, 0).getTypeId())) { return; }
 
