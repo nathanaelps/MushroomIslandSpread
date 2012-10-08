@@ -7,11 +7,11 @@ rottableBlocks:
   - 26
   - 35
   - 47
+  - 44
   - 53
   - 60
   - 12
   - 97
-  - 98
   - 108
   - 109
 redableBlocks:
@@ -34,6 +34,7 @@ logBlocks:
   - 15
   - 16
   - 4
+  - 98
 removeBlocks:
   - 13
   - 18
