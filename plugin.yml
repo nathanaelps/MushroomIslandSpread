@@ -1,5 +1,5 @@
-name: MushroomIslandSpread
-main: me.nathanaelps.plugins.mushroomislandspread.MushroomIslandSpread
+name: MushroomSpread
+main: me.nathanaelps.plugins.mushroomspread.MushroomSpread
 author: nathanaelps
 version: b.02
 commands:

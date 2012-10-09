@@ -1,4 +1,4 @@
-package me.nathanaelps.plugins.mushroomislandspread;
+package me.nathanaelps.plugins.mushroomspread;
 
 import java.util.List;
 
@@ -15,13 +15,13 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class MushroomIslandSpread extends JavaPlugin implements Listener {
+public class MushroomSpread extends JavaPlugin implements Listener {
 
 	//These are standard lines that I put in all my plugins. I got them from somewhere, and they're so handy!
 	public static String pluginName;
 	public static String pluginVersion;
 	public static Server server;
-	public static MushroomIslandSpread plugin;
+	public static MushroomSpread plugin;
 	
 	public void onDisable() {
 		
@@ -42,6 +42,9 @@ public class MushroomIslandSpread extends JavaPlugin implements Listener {
 
 		//registers this plugin
 		getServer().getPluginManager().registerEvents(this, this);
+		
+		//Maybe this will fix my config.yml-is-not-saving issues? I don't know how, or why...
+		this.getConfig();
 		
 		//logs.... You know, you can figure this line out by yourself. Go for it.
 		log("Enabled.");
