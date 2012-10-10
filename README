@@ -1,0 +1,19 @@
+==MushroomSpread==
+
+MushroomSpread is a bukkit plugin. [bukkit.org]
+
+Creates an overwhelming wave of Mushroom Island biome, eating all plants and most buildings in its path.
+
+THIS WILL DESTROY YOUR CAREFULLY MADE MAP, UNLESS CONTROLLED THOROUGHLY! YOU'VE BEEN WARNED!
+
+==Long version==
+
+Mushroom Spread lets Mycelium spread 2-3 times faster, destroying grass and turning trees into giant mushrooms and most groundcover (flowers, fences, tallgrass, redstone, etc.) into small mushrooms.
+
+It also changes the biome to MushroomIsland. Handy if you need rain in the desert... and don't mind losing your sand.
+
+==Future hopes==
+
+* Turn all mobs into Mooshrooms (or witches? Or iron golems? Or, maybe... IDK... Zombie pigmen, or something)
+* Speed up mycelium spread using MC's built-in functions, or derivations thereof.
+* Figure out a way of infecting water, somehow.
