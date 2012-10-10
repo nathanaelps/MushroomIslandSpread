@@ -3,8 +3,8 @@
 
 mush:
   options:
-    # Trees can "spore" off from time to time if you turn off slowgrowth. Do so when you want to destroy a large area quickly.
-    # Leave it to true if you want your server to remain happy with you. (uses more memory, CPU)
+# Trees can "spore" off from time to time if you turn off slowgrowth. Do so when you want to destroy a large area quickly.
+# Leave it 'true' if you want your server to remain happy with you. (uses more memory, CPU)
     slowgrowth: true
   rottableBlocks:
 #    - 1
