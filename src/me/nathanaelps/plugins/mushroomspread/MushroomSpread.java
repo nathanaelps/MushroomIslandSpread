@@ -25,7 +25,8 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 	
 	public void onDisable() {
 		
-		//When we're closing down the plugin, save the config... Isn't working. Why not?
+		//When we're closing down the plugin, save the config... I don't know why, we can't change anything on the fly, but...
+		//Old habits, I guess.
 		this.saveConfig();
 		
 		//and log "disabled" to the server log. Note the 'log' function. Pretty handy, if you're lazy like me.
@@ -43,8 +44,8 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 		//registers this plugin
 		getServer().getPluginManager().registerEvents(this, this);
 		
-		//Maybe this will fix my config.yml-is-not-saving issues? I don't know how, or why...
-		this.getConfig();
+		//Save the default config file, for making changes!
+		this.saveDefaultConfig();
 		
 		//logs.... You know, you can figure this line out by yourself. Go for it.
 		log("Enabled.");
@@ -222,6 +223,7 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 		//cap will make a mushroom cap.	
 
 		List<Integer> offGround = this.getConfig().getIntegerList("mush.skyBlocks");
+		List<Integer> log = this.getConfig().getIntegerList("mush.logBlocks");
 		
 		if(!offGround.contains(block.getRelative(0, -3, 0).getTypeId())) { return; }
 
@@ -232,11 +234,13 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 			//Same i and k as before. Brown caps are flat, so we don't have to think about j (or, y)
 			for(int i=-2; i<=2; i++){
 				for(int k=-2; k<=2; k++){
-					//This gives the cap a roundish shape.
-					if(Math.sqrt((i*i)+(k*k))>radius) { continue; }
-
 					//Again, we'll name the nearby block to nearBlock
 					Block nearBlock = block.getRelative(i,0,k);
+
+					//This gives the cap a roundish shape.
+					if((Math.sqrt((i*i)+(k*k))>radius) ||
+							log.contains(nearBlock) ) { continue; }
+
 					//make it a mushroom block
 					nearBlock.setTypeId(capColor);
 					//that's a cap-style block.
@@ -248,24 +252,27 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 			for(int i=-1; i<=1; i++){
 				for(int j=-1; j<=1; j++){
 					for(int k=-1; k<=1; k++){
-						if(j==1) {
-							if(Math.sqrt((i*i)+(k*k))>1) { continue; }
-							
-							//Again, we'll name the nearby block to nearBlock
-							Block nearBlock = block.getRelative(i,j,k);
-							//make it a mushroom block
-							nearBlock.setTypeId(capColor);
-							//that's a cap-style block.
-							nearBlock.setData((byte) 14);
-						} else {
-							if(Math.sqrt((i*i)+(k*k))<1){ continue; }
-							
-							//Again, we'll name the nearby block to nearBlock
-							Block nearBlock = block.getRelative(i,j,k);
-							//make it a mushroom block
-							nearBlock.setTypeId(capColor);
-							//that's a cap-style block.
-							nearBlock.setData((byte) 14);
+
+						//Again, we'll name the nearby block to nearBlock
+						Block nearBlock = block.getRelative(i,j,k);
+						
+						//If it's not a log block, then
+						if(!log.contains(nearBlock)){
+							if(j==1) {
+								if(Math.sqrt((i*i)+(k*k))>1) { continue; }
+
+								//make it a mushroom block
+								nearBlock.setTypeId(capColor);
+								//that's a cap-style block.
+								nearBlock.setData((byte) 14);
+							} else {
+								if(Math.sqrt((i*i)+(k*k))<1){ continue; }
+
+								//make it a mushroom block
+								nearBlock.setTypeId(capColor);
+								//that's a cap-style block.
+								nearBlock.setData((byte) 14);
+							}
 						}
 					}
 				}
