@@ -74,7 +74,7 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 	
 	@EventHandler public void onBlockPlace(BlockPlaceEvent event) {
 		//similarly, whenever a block is placed,
-		
+				
 		//check to see if it's mycelium. If it's not, just leave this function.
 		if(event.getBlockPlaced().getType()!=Material.MYCEL) {return;}
 		
@@ -278,10 +278,14 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 				}
 			}
 		}
+		
+		if(!this.getConfig().getBoolean("mush.options.slowGrowth")){
+			rotBlock(block.getRelative(15-(int) (Math.random()*30), 0, 15-(int) (Math.random()*30)), false);
+		}
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
-		//Finally, a pretty simple reload command. I don't think it works right now... I'll find out why!
+		//Finally, a pretty simple reload command.
 		if(cmd.getName().equalsIgnoreCase("mushload")){
 			this.reloadConfig();
 			log("Config reloaded.");
