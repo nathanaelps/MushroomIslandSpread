@@ -1,6 +1,9 @@
+#Note that I've commented out a few blocks: Stone doesn't rot now, and ores don't become mushrooms.
+#I like to uncomment these, but... They're DESTRUCTIVE.
+
 mush:
   rottableBlocks:
-    - 1
+#    - 1
     - 2
     - 5
     - 19
@@ -31,9 +34,9 @@ mush:
     - 78
   logBlocks:
     - 17
-    - 14
-    - 15
-    - 16
+#    - 14
+#    - 15
+#    - 16
     - 4
     - 98
   removeBlocks:
