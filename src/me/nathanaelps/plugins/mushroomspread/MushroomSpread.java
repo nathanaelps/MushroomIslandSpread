@@ -26,9 +26,7 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 	
 	public void onDisable() {
 		
-		//When we're closing down the plugin, save the config... I don't know why, we can't change anything on the fly, but...
-		//Old habits, I guess.
-		// this.saveConfig();
+		//Change back Mycelium growth to the minecraft default. Otherwise, we could break something.
 		net.minecraft.server.Block.byId[net.minecraft.server.Block.MYCEL.id] = net.minecraft.server.Block.MYCEL;
 		
 		//and log "disabled" to the server log. Note the 'log' function. Pretty handy, if you're lazy like me.
@@ -46,12 +44,12 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 		//registers this plugin
 		getServer().getPluginManager().registerEvents(this, this);
 		
-		//registers the new mycelium class
-		//Then you have to add this new entity to the list of minecrafts entities (in your onEnable())		
-//		final net.minecraft.server.BlockMycel MYCEL = (net.minecraft.server.BlockMycel) (new BlockMycelium(110));//.c(0.6F).a(g).a("mycel");
+		//registers the new mycelium class. We need to first remove it, then replace it.
+		//These lines deal with NMS (net.minecraft.server) classes, and they might break during updates.
+		//I kind of doubt it, since I'm not dealing with any earth-shattering changes, but it's possible.
+		//Check BlockMycelium.java to see what this does.
 		net.minecraft.server.Block.byId[net.minecraft.server.Block.MYCEL.id] = null;
 		net.minecraft.server.Block.byId[net.minecraft.server.Block.MYCEL.id] = new BlockMycelium(110);
-
 		
 		//Save the default config file, for making changes!
 		this.saveDefaultConfig();
@@ -104,6 +102,7 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 		List<Integer> reds = this.getConfig().getIntegerList("mush.redableBlocks");
 
 		//Which blocks "rot" (into dirt) immediately?
+		//As a note, this doesn't include grass because we've changed mycelium to eat grass.
 		List<Integer> rots = this.getConfig().getIntegerList("mush.rottableBlocks");
 		
 		//Which blocks should just disappear (This is handy for vines!)
