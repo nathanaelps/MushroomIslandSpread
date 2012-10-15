@@ -22,12 +22,14 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 	public static String pluginVersion;
 	public static Server server;
 	public static MushroomSpread plugin;
+
 	
 	public void onDisable() {
 		
 		//When we're closing down the plugin, save the config... I don't know why, we can't change anything on the fly, but...
 		//Old habits, I guess.
-		this.saveConfig();
+		// this.saveConfig();
+		net.minecraft.server.Block.byId[net.minecraft.server.Block.MYCEL.id] = net.minecraft.server.Block.MYCEL;
 		
 		//and log "disabled" to the server log. Note the 'log' function. Pretty handy, if you're lazy like me.
 		log("Disabled");
@@ -43,6 +45,13 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 
 		//registers this plugin
 		getServer().getPluginManager().registerEvents(this, this);
+		
+		//registers the new mycelium class
+		//Then you have to add this new entity to the list of minecrafts entities (in your onEnable())		
+//		final net.minecraft.server.BlockMycel MYCEL = (net.minecraft.server.BlockMycel) (new BlockMycelium(110));//.c(0.6F).a(g).a("mycel");
+		net.minecraft.server.Block.byId[net.minecraft.server.Block.MYCEL.id] = null;
+		net.minecraft.server.Block.byId[net.minecraft.server.Block.MYCEL.id] = new BlockMycelium(110);
+
 		
 		//Save the default config file, for making changes!
 		this.saveDefaultConfig();
