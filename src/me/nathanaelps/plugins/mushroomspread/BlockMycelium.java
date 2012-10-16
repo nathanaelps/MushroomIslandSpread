@@ -3,6 +3,7 @@ package me.nathanaelps.plugins.mushroomspread;
 import java.util.Random;
 
 import org.bukkit.block.BlockState;
+import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 
 import net.minecraft.server.Block;
@@ -27,6 +28,26 @@ public class BlockMycelium extends BlockMycel{
 		//I don't know why we're checking isStatic. This is in the original class and I decided not to mess with it until I understood it.
 		if (!world.isStatic) {
 			
+            if (
+            		world.getLightLevel(x, y + 1, z) < 2
+//            		&& Block.lightBlock[world.getTypeId(nearX, nearY + 1, nearZ)] > 2
+            	) {
+                // CraftBukkit start
+                org.bukkit.World bworld = world.getWorld();
+                BlockState blockState = bworld.getBlockAt(x, y, z).getState();
+                blockState.setTypeId(Block.DIRT.id);
+
+                BlockFadeEvent event = new BlockFadeEvent(blockState.getBlock(), blockState);
+                world.getServer().getPluginManager().callEvent(event);
+
+                if (!event.isCancelled()) {
+                    blockState.update(true);
+                }
+                // CraftBukkit end
+                return;
+                
+            }			
+			
 			//Now, create a for loop, since we want to try spreading in more directions than 1.
 			for (int i = 0; i < 4; ++i) {
 				
@@ -36,21 +57,21 @@ public class BlockMycelium extends BlockMycel{
 				int nearZ = z + random.nextInt(5) - 2;
 				
 				//? IDK. It's in NMS.
-				int aboveNearBlock = world.getTypeId(nearX, nearY + 1, nearZ);
+//				int aboveNearBlock = world.getTypeId(nearX, nearY + 1, nearZ);
 				
 				//This is a shorthand, used in the if-statement.
 				int nearBlockTypeId = world.getTypeId(nearX, nearY, nearZ);
-
 				if (
 						//Now, if the nearby block is dirt or grass,
 						(
 							nearBlockTypeId == Block.GRASS.id ||
+							nearBlockTypeId == Block.SAND.id  ||
 							nearBlockTypeId == Block.DIRT.id
-						) &&
+						)
 						//and it's bright enough
-						world.getLightLevel(nearX, nearY + 1, nearZ) >= 4 && 
+						&& world.getLightLevel(nearX, nearY + 1, nearZ) >= 4  
 						//and it's not covered in water,
-						Block.lightBlock[aboveNearBlock] <= 2
+//						&& Block.lightBlock[aboveNearBlock] <= 2
 					) {
 					
 					//Then we trigger the Bukkit BlockSpreadEvent that we catch in the main plugin.
@@ -69,8 +90,15 @@ public class BlockMycelium extends BlockMycel{
 					// CraftBukkit end
 				}
 			}
-
 		}
     }
+	
+    protected net.minecraft.server.Block setDurability(float durability) {
+        this.strength = durability;
+        if (this.durability < durability * 5.0F) {
+            this.durability = durability * 5.0F;
+        }
 
+        return this;
+    }
 }

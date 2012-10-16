@@ -47,9 +47,9 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 		//registers the new mycelium class. We need to first remove it, then replace it.
 		//These lines deal with NMS (net.minecraft.server) classes, and they might break during updates.
 		//I kind of doubt it, since I'm not dealing with any earth-shattering changes, but it's possible.
-		//Check BlockMycelium.java to see what this does.
+		//Check BlockMycelium.java to see what this does.  
 		net.minecraft.server.Block.byId[net.minecraft.server.Block.MYCEL.id] = null;
-		net.minecraft.server.Block.byId[net.minecraft.server.Block.MYCEL.id] = new BlockMycelium(110);
+		net.minecraft.server.Block.byId[net.minecraft.server.Block.MYCEL.id] = new BlockMycelium(110).setDurability(0.6f);
 		
 		//Save the default config file, for making changes!
 		this.saveDefaultConfig();
@@ -72,6 +72,8 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 	@EventHandler public void onBlockSpreadEvent(BlockSpreadEvent event) {
 		//Whenever a block spreads (i.e., grass or mycelium),
 		
+		if(event.isCancelled()) { return; }
+		
 		//check to see if it's mycelium. If it's not, just leave this function.
 		if(event.getSource().getType()!=Material.MYCEL) {return;}
 		
@@ -82,6 +84,8 @@ public class MushroomSpread extends JavaPlugin implements Listener {
 	@EventHandler public void onBlockPlace(BlockPlaceEvent event) {
 		//similarly, whenever a block is placed,
 				
+		if(event.isCancelled()) { return; }
+		
 		//check to see if it's mycelium. If it's not, just leave this function.
 		if(event.getBlockPlaced().getType()!=Material.MYCEL) {return;}
 		
